@@ -26,7 +26,6 @@ class chat:
 # Sends a message to TMI
 def irc(message):
     s.send(message + "\r\n")
-    print("# " + message)
 
 # Sends a message to Twitch Chat
 def say(message):
