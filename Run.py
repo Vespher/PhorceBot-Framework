@@ -71,17 +71,17 @@ s = socket.socket()
 s.connect((cred.HOST, cred.PORT))
 
 # Authenticate
-irc("PASS " + cred.OAUTH + "\r\n")
-irc("NICK " + cred.USER + "\r\n")
+irc("PASS " + cred.OAUTH)
+irc("NICK " + cred.USER)
 
 # Join channel
-irc("JOIN #" + cred.CHAN + "\r\n")
+irc("JOIN #" + cred.CHAN)
 print("Joined #" + cred.CHAN)
 
 # Send CAP requests
-irc("CAP REQ :twitch.tv/membership\r\n")
-irc("CAP REQ :twitch.tv/tags\r\n")
-irc("CAP REQ :twitch.tv/commands\r\n")
+irc("CAP REQ :twitch.tv/membership")
+irc("CAP REQ :twitch.tv/tags")
+irc("CAP REQ :twitch.tv/commands")
 
 # Parse messages incoming from socket
 incoming = ""
