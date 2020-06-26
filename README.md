@@ -1,5 +1,5 @@
 # PhorceBot Framework
-A basic framework for a Twitch chat bot based on my own Twitch chat bot, PhorceBot.
+A basic framework for a Twitch chat bot based on my own, PhorceBot.
 
 This framework handles all the basics of connecting a bot to Twitch's servers and parsing messages for use in commands and functions. It's open ended, letting you build on top in any way you want.
 
