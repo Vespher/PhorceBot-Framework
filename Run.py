@@ -40,7 +40,7 @@ def say(message):
 def commands(chat):
 
     # All chat commands go here. Make a command using an if statement.
-    # Example: If !test in chat.message: say("Testing!")
+    # Example: If "!test" in chat.message: say("Testing!")
     # You can use anything in the chat class when making commands!
 
     # Test command
@@ -72,17 +72,17 @@ s = socket.socket()
 s.connect((cred.HOST, cred.PORT))
 
 # Authenticate
-s.send("PASS " + cred.OAUTH + "\r\n")
-s.send("NICK " + cred.USER + "\r\n")
+irc("PASS " + cred.OAUTH + "\r\n")
+irc("NICK " + cred.USER + "\r\n")
 
 # Join channel
-s.send("JOIN #" + cred.CHAN + "\r\n")
+irc("JOIN #" + cred.CHAN + "\r\n")
 print("Joined #" + cred.CHAN)
 
 # Send CAP requests
-s.send("CAP REQ :twitch.tv/membership\r\n")
-s.send("CAP REQ :twitch.tv/tags\r\n")
-s.send("CAP REQ :twitch.tv/commands\r\n")
+irc("CAP REQ :twitch.tv/membership\r\n")
+irc("CAP REQ :twitch.tv/tags\r\n")
+irc("CAP REQ :twitch.tv/commands\r\n")
 
 # Parse messages incoming from socket
 incoming = ""
