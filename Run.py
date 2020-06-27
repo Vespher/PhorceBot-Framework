@@ -108,8 +108,8 @@ while receiving:
                 chat.username = meta.group(1).lower()
                 chat.moderator = meta.group(2)
                 chat.subscriber = meta.group(3)
-                chat.message_lowercase = meta.group(4).lower()
-                chat.message = meta.group(4)
+                chat.message = meta.group(4).lower()
+                chat.message_uppercase = meta.group(4)
 
                 meta2 = re.search(".*PRIVMSG #" + cred.CHAN + " :!\w* (.*)", line)
                 if meta2:
