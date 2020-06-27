@@ -1,5 +1,6 @@
 import string, socket, sys, time, re
 from Credentials import cred
+from Parsing import messageParse
 
 print("========================")
 print("PhorceBot 4.0 by Vespher")
@@ -16,8 +17,12 @@ class chat:
     moderator = False               # Moderator status. True or False.
     subscriber = False              # Subscriber status. True or False.
     message = ""                    # Chat message
-    message_lowercase = ""          # Chat message in all lowercase
+    message_raw = ""                # Chat message in all lowercase
     flag = ""                       # A command flag
+
+# Random Variables
+debugMode = False
+
 
 # =========
 # Functions
@@ -25,11 +30,11 @@ class chat:
 
 # Sends a message to TMI
 def irc(message):
-    s.send(message + "\r\n")
+    s.send(bytes(message + "\r\n","UTF-8"))
 
 # Sends a message to Twitch Chat
 def say(message):
-    s.send("PRIVMSG #" + cred.CHAN + " :" + message + "\r\n")
+    s.send(bytes("PRIVMSG #" + cred.CHAN + " :" + message + "\r\n","UTF-8"))
     print(">>> PhorceBot: " + message)
 
 # =============
@@ -42,20 +47,24 @@ def commands(chat):
     # Example: If "!test" in chat.message: say("Testing!")
     # You can use anything in the chat class when making commands!
 
-    # Test command
-    if "!test" in chat.message:
-        say("Testing!")
-
-    # Checks if you're a mod. Keep in mind that you are not a mod in your own channel. If you are the bot admin, it will think you are a mod.
-    if "!mod" in chat.message and chat.moderator == True:
-        say("You are a mod!")
-    elif "!mod" in chat.message and chat.moderator == False:
-        say("You are not a mod.")
-
     # Admin only quit command. Terminates the bot. You probably shouldn't remove this.
     if "!quit" in chat.message and chat.username == cred.ADMIN:
         say("Quitting.")
         return False
+
+    # Toggle debug mode
+    if "!debug" in chat.message and chat.username == cred.ADMIN:
+        say("Debug mode toggled")
+        global debugMode
+        debugMode = not debugMode
+
+    # Check chat class
+    if "!check" in chat.message and debugMode == True:
+        say("Display name: " + chat.displayname + " | Username: " + chat.username + " | Mod: " + str(chat.moderator) + " | Sub: " + str(chat.subscriber))
+
+    # Test command
+    if "!test" in chat.message:
+        say("Testing!")
 
     # End of commands. Return "True" to keep the bot running.
     return True
@@ -87,11 +96,12 @@ irc("CAP REQ :twitch.tv/commands")
 incoming = ""
 receiving = True  # Set receiving to False to terminate the while loop and close the bot
 while receiving:
-    incoming = s.recv(1024)
-    temp = str.split(incoming, "\n")
-    incoming = temp.pop()
+    incoming = s.recv(4096).decode("UTF-8")
 
-    for line in temp:
+    chatLine = str.split(incoming, "\r\n")
+    incoming = chatLine.pop() # Removes the old incoming message that was stored to clear RAM. Don't change this!!!
+
+    for line in chatLine:
 
         if line: # Makes sure line isn't false, empty, or null
 
@@ -102,40 +112,18 @@ while receiving:
             # Checks for Twitch chat messages
             elif "PRIVMSG" in line:
 
-                # Chat message regex. This code splits the chat message into digestible variables inside the chat class.
-                meta = re.search(".*display-name=(\w*);.*mod=(\w*);.*subscriber=(\w*);.*PRIVMSG #" + cred.CHAN + " :(.*)", line)
-                chat.displayname = meta.group(1)
-                chat.username = meta.group(1).lower()
-                chat.moderator = meta.group(2)
-                chat.subscriber = meta.group(3)
-                chat.message = meta.group(4).lower()
-                chat.message_uppercase = meta.group(4)
+                try:
+                    messageParse(line, chat)
 
-                meta2 = re.search(".*PRIVMSG #" + cred.CHAN + " :!\w* (.*)", line)
-                if meta2:
-                    chat.flag = meta2.group(1)
-                else:
-                    chat.flag = ""
+                    if debugMode == True:
+                        print(str(chatLine))
+                    else:
+                        print(chat.displayname + ": " + chat.message_raw)  # Prints the chat line to the console
 
-                # Sets chat.moderator to be True/False instead of 1/0
-                if chat.moderator == "1":
-                    chat.moderator = True
-                else:
-                    chat.moderator = False
-
-                # Sets chat.subscriber to be True/False instead of 1/0
-                if chat.subscriber == "1":
-                    chat.subscriber = True
-                else:
-                    chat.subscriber = False
-
-                # Sets the admin to always be interpreted as a moderator
-                if chat.username == cred.ADMIN:
-                    chat.moderator = True
-
-                print(chat.displayname + ": " + chat.message)  # Prints the chat line to the console
-
-                receiving = commands(chat)  # Checks the chat message for commands. If a command returns "False", the bot terminates.
+                    receiving = commands(chat)  # Checks the chat message for commands. If a command returns "False", the bot terminates.
+                except Exception as e:
+                    print("$ Message processing failed: " + str(chatLine))
+                    print(e)
 
 # If receiving is false, the while loop will end and the script continues here.
 print("No longer receiving messages.")
