@@ -11,4 +11,4 @@ Edit Credentials.py to include your information. The admin account will always b
 Get your bot's oauth token here: https://twitchapps.com/tmi/
 
 ### Editing
-You can add, edit, and remove whatever code you want in Run.py. There are sections in there for Classes and Variables, Functions, and Chat Commands.
+You can add, edit, and remove whatever code you want in Run.py. There are sections in there for Classes and Variables, Functions, and Chat Commands. Read the comments in Run.py to get a feel for how things work.
