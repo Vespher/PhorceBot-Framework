@@ -23,3 +23,15 @@ chat.message            The chat message in all lowercase
 chat.message_raw        The chat message including casing
 chat.flags              Command flags, eg. !command flag
 ```
+Here are some example commands to show you how easy it is to get things rolling:
+```
+if "!test" in chat.message:
+  say("Testing!")
+  
+if "!mod" in chat.message and chat.moderator == True:
+  say("This is a mod only command!")
+  
+if "!roll" in chat.message:
+  dice = randint(1, 6)
+  say(dice)
+```
