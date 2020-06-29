@@ -31,7 +31,7 @@ def messageParse(line, chat):
     else:
         chat.subscriber = False
 
-    # Sets the admin to always be interpreted as a moderator
+    # Sets the admin and broadcaster to always be interpreted as a moderator
     if chat.username == cred.ADMIN or "broadcaster/1" in chatHeaders:
         chat.moderator = True
 
