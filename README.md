@@ -15,13 +15,13 @@ You can add, edit, and remove whatever code you want in Run.py. There are sectio
 
 Every time a chat line comes into the bot, it splits the line up into multiple digestible variables inside the "chat" class. You can use these variables in any way you want, such as checking if a user is a moderator or subscriber, or printing out their username.
 ```py
-chat.username           Username of the person that sent the message (Usernames are all lowercase)
-chat.displayname        Display name of the person that sent the message (Includes casing)
-chat.moderator          Moderator status (True or False)
-chat.subscriber         Subscriber status (True or False)
-chat.message            The chat message in all lowercase
-chat.message_raw        The chat message including casing
-chat.flags              Command flags, eg. !command flag
+chat.username           # Username of the person that sent the message (Usernames are all lowercase)
+chat.displayname        # Display name of the person that sent the message (Includes casing)
+chat.moderator          # Moderator status (True or False)
+chat.subscriber         # Subscriber status (True or False)
+chat.message            # The chat message in all lowercase
+chat.message_raw        # The chat message including casing
+chat.flags              # Command flags, eg. !command flag
 ```
 Here are some example commands to show you how easy it is to get things rolling:
 ```py
