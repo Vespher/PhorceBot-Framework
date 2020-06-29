@@ -1,7 +1,7 @@
 # PhorceBot Framework
 A basic framework for a Twitch chat bot based on my own, PhorceBot.
 
-This framework handles all the basics of connecting a bot to Twitch's servers and parsing messages for use in commands and functions. It's open ended, letting you build on top in any way you want.
+This framework handles all the basics of connecting a bot to Twitch's servers and parsing messages for use in commands and functions. It's open ended, letting you build on top in any way you want. The biggest goal of this framework is to be as simple as possible to set up for people with no/limited python or programming experience, and a great place for them to start learning these things.
 
 _Important_: This framework does not currently include any form of rate limiting. This is a vulnerability, and if abused, puts you at risk of receiving a temporary ban (30 minutes) from Twitch's chat servers. There are many ways to implement rate limiting, so I wanted to leave that up to the individual. Read more here: https://dev.twitch.tv/docs/irc/guide/
 
