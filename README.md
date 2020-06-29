@@ -6,7 +6,7 @@ This framework handles all the basics of connecting a bot to Twitch's servers an
 _Important_: This framework does not currently include any form of rate limiting. This is a vulnerability, and if abused, puts you at risk of receiving a temporary ban (30 minutes) from Twitch's chat servers. There are many ways to implement rate limiting, so I wanted to leave that up to the individual. Read more here: https://dev.twitch.tv/docs/irc/guide/
 
 ### Setup
-Edit Credentials.py to include your information. The admin account will always be seen as a moderator by the bot. This should be your main Twitch account. After Credentials.py is set up, simply run Run.py to launch the bot.
+Download all 3 python scripts and place them in the same folder. Edit Credentials.py to include your information. After Credentials.py is set up, simply run Run.py to launch the bot.
 
 Get your bot's oauth token here: https://twitchapps.com/tmi/
 
@@ -23,6 +23,7 @@ chat.message            # The chat message in all lowercase
 chat.message_raw        # The chat message including casing
 chat.flags              # Command flags, eg. !command flag
 ```
+
 Here are some example commands to show you how easy it is to get things rolling:
 ```py
 if "!test" in chat.message:
